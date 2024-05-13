@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 
-const API_URL = "http://www.omdbapi.com?apikey=3e219e97";
+const API_URL = "https://www.omdbapi.com?apikey=3e219e97";
 
 function App() {
   const [movies, setMovies] = useState([]);
