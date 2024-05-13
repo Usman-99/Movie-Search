@@ -1,5 +1,6 @@
 import "./App.css";
 import SearchIcon from "./search.svg";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 
@@ -11,19 +12,32 @@ function App() {
   const [searchError, setSearchError] = useState(false);
 
   const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-    if (data.Response === "True") {
-      setMovies(data.Search);
-      setSearchError(false); // Reset search error state if movies are found
-    } else {
-      setMovies([]);
-      setSearchError(true); // Set search error state if no movies are found
+    try {
+      const response = await axios.get(`${API_URL}&s=${title}`); // Use Axios for GET request
+      if (response.data.Response === "True") {
+        setMovies(response.data.Search);
+        setSearchError(false);
+      } else {
+        setMovies([]);
+        setSearchError(true);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
-
+  // const searchMovies = async (title) => {
+  //   const response = await fetch(`${API_URL}&s=${title}`);
+  //   const data = await response.json();
+  //   if (data.Response === "True") {
+  //     setMovies(data.Search);
+  //     setSearchError(false); // Reset search error state if movies are found
+  //   } else {
+  //     setMovies([]);
+  //     setSearchError(true); // Set search error state if no movies are found
+  //   }
+  // };
   useEffect(() => {
-    searchMovies("Spiderman");
+    searchMovies("man");
   }, []);
 
   return (
